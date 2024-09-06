@@ -1,0 +1,39 @@
+{
+  "name": "cyberoni",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "aaa": "jest",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down -v",
+    "setup": "npm run docker:up && npx prisma migrate dev --skip-seed --name init && npx prisma db seed",
+    "test": "npm run docker:up && npx prisma migrate dev --skip-seed --name init && npx prisma db seed && jest --forceExit"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^22.5.4",
+    "@types/supertest": "^6.0.2",
+    "jest": "^29.7.0",
+    "prisma": "^5.19.1",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.19.1",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2"
+  }
+}
