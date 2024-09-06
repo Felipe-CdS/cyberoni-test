@@ -10,8 +10,12 @@ app.use(express.json());
 
 app.use(router);
 
-app.listen(process.env.PORT || 0, () => {
-	console.log("Server Up!");
+var port: number = 3000;
+
+if(process.env.NODE_ENV == "test") port = 0;
+
+app.listen(process.env.PORT || port, () => {
+	console.log(`Server Up! Port: ${port}`);
 });
 
 export { app }

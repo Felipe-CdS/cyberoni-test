@@ -4,11 +4,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "aaa": "jest",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down -v",
     "setup": "npm run docker:up && npx prisma migrate dev --skip-seed --name init && npx prisma db seed",
-    "test": "npm run docker:up && npx prisma migrate dev --skip-seed --name init && npx prisma db seed && jest --forceExit"
+    "test": "NODE_ENV=test npm run docker:up && npx prisma migrate dev --skip-seed --name init && npx prisma db seed && jest --forceExit"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
