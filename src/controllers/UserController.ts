@@ -11,14 +11,10 @@ class UserController {
 			return response.status(400).send("Invalid Form.");
 		}
 
-		const service = new UserService();
-		
 		try  {
-			const usr = await service.create({username, email, password, name});
+			const usr = await (new UserService()).create({username, email, password, name});
 
-			return response.status(200).json({
-				username: usr.username
-			});
+			return response.status(200).json(usr);
 
 		} catch (err) {
 			let msg = 'Unkown error.'
@@ -55,7 +51,6 @@ class UserController {
 
 		const result = await (new UserService()).readByPage(page);
 
-
 		return response.status(200).json({
 			page: page,
 			users: result
@@ -74,9 +69,6 @@ class UserController {
 
 		try  {
 			const usr = await (new UserService()).update(username, { username: newUsername, email, password, name});
-
-			if(usr == null) return response.status(304).end();
-
 			return response.status(200).json(usr);
 		} catch (err) {
 			let msg = 'Unkown error.'

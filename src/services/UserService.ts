@@ -76,40 +76,28 @@ class UserService {
 
 	async update(oldUsername: string, { username, email, password, name }: IUser) {
 
-		var changeFlag = false;
-		var changes = {
-			username: "",
-			email: "",
-			password: "",
-			name: ""
-		}
+		var changes = <IUser>{};
 
 		if(username && username.length > 0) {
 			changes.username = username;
-			changeFlag = true;
 		}
 
 		if(email && email.length > 0) {
 			changes.email = email;
-			changeFlag = true;
 		}
 
 		if(password && password.length > 0) {
 			changes.password = await hash(password, 12);
-			changeFlag = true;
 		}
 
 		if(name && name.length > 0) {
 			changes.name = name;
-			changeFlag = true;
-		}
-
-		if(!changeFlag){
-			return null;
 		}
 
 		for (var propName in changes) {
-			if (changes[propName as keyof typeof changes] === "") delete changes[propName as keyof typeof changes];
+			if (!changes[propName as keyof typeof changes]) {
+				delete changes[propName as keyof typeof changes];
+			}
 		}
 
 		const updatedUsr = await prisma.user.update({
@@ -125,9 +113,10 @@ class UserService {
 	}
 
 	async delete(username: string) {
-		await prisma.user.delete({
+		const deleted = await prisma.user.delete({
 			where: { username: username },
 		});
+		return deleted;
 	}
 }
 
